@@ -1,4 +1,4 @@
-﻿namespace MrDuck
+﻿namespace MrDuck.Views
 {
     public partial class MainPage : ContentPage
     {

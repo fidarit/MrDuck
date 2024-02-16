@@ -9,6 +9,7 @@ namespace MrDuck
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .ConfigureServices()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -20,6 +21,13 @@ namespace MrDuck
 #endif
 
             return builder.Build();
+        }
+
+        private static MauiAppBuilder ConfigureServices(this MauiAppBuilder appBuilder)
+        {
+            var services = appBuilder.Services;
+            
+            return appBuilder;
         }
     }
 }
