@@ -17,17 +17,20 @@ namespace MrDuck
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+builder.Services.AddLogging(
+    configure =>
+    {
+        configure.AddDebug();
+
+#if ANDROID
+        configure.AddConsole();
 #endif
 
-            return builder.Build();
-        }
+    }
+);
+#endif     
 
-        private static MauiAppBuilder ConfigureServices(this MauiAppBuilder appBuilder)
-        {
-            var services = appBuilder.Services;
-            
-            return appBuilder;
+            return builder.Build();
         }
     }
 }
