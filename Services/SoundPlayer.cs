@@ -8,11 +8,31 @@ namespace MrDuck.Services
 
         private const string SoundName = "quack.mp3";
 
+        private byte[] soundBuffer;
+
+        private async Task<byte[]> GetSoundBuffer()
+        {
+            if (soundBuffer?.Length > 0)
+                return soundBuffer;
+
+            else
+            {
+                using var sourceStream = await FileSystem.OpenAppPackageFileAsync(SoundName);
+                var memoryStream = new MemoryStream();
+
+                await sourceStream.CopyToAsync(memoryStream);
+
+                soundBuffer = memoryStream.ToArray();
+
+                return soundBuffer;
+            }
+        }
+
         public async Task Play()
         {
             try
             {
-                using var stream = await FileSystem.OpenAppPackageFileAsync(SoundName);
+                using var stream = new MemoryStream(await GetSoundBuffer());
                 using var player = AudioManager.Current.CreateAsyncPlayer(stream);
 
                 player.Volume = 0.5f;
